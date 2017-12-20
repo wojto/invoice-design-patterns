@@ -6,7 +6,6 @@ use Invoice\Domain\User;
 use Invoice\Domain\Email;
 use Invoice\Domain\PasswordHash;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 /**
  * Class UserSpec
@@ -15,7 +14,7 @@ use Prophecy\Argument;
  */
 class UserSpec extends ObjectBehavior
 {
-    function it_is_initializable(Email $email, PasswordHash $passwordHash)
+    public function it_is_initializable(Email $email, PasswordHash $passwordHash)
     {
         $this->beConstructedWith(
             $email,
