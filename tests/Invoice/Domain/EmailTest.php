@@ -8,7 +8,6 @@
 
 namespace tests\Invoice\Domain;
 
-
 use Invoice\Domain\Email;
 use PHPUnit\Framework\TestCase;
 

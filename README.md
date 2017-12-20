@@ -19,3 +19,9 @@ Useful commands
 =====
 logging to docker container:
 `docker-compose exec php bash`
+
+running specs and tests:
+`sh bin/run-script.sh`
+
+creating spec:
+`bin/phpspec desc "Invoice\Domain\PasswordHash"`
