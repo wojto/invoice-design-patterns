@@ -5,6 +5,11 @@ namespace spec\Invoice\Domain;
 use Invoice\Domain\PasswordHash;
 use PhpSpec\ObjectBehavior;
 
+/**
+ * Class PasswordHashSpec
+ * @package spec\Invoice\Domain
+ * @mixin PasswordHash
+ */
 class PasswordHashSpec extends ObjectBehavior
 {
     public function it_is_initializable()
