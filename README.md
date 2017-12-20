@@ -15,3 +15,7 @@ more info
 
 To run our containers you need to call `docker-compose up -d` from the project root.
 
+Useful commands
+=====
+logging to docker container:
+`docker-compose exec php bash`
