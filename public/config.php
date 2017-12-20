@@ -1,5 +1,7 @@
 <?php
 
+require_once '../vendor/autoload.php';
+
 $config = [
     'db_user' => getenv('POSTGRES_USER'),
     'db_password' => getenv('POSTGRES_PASSWORD'),
