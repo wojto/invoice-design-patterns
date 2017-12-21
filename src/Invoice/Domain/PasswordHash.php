@@ -4,25 +4,45 @@ declare(strict_types=1);
 
 namespace Invoice\Domain;
 
+use Invoice\Domain\Exception\PasswordIsEmpty;
+use Invoice\Domain\Exception\PasswordIsNotValid;
+
 class PasswordHash
 {
-    private $passwordHash;
+    private $hash;
 
-    public function __construct(string $passwordHash)
+    private function __construct(string $hash)
     {
-        if (!$passwordHash) {
-            throw new \InvalidArgumentException();
-        }
-
-        if (strlen($passwordHash) <= 1) {
-            throw new \InvalidArgumentException();
-        }
-
-        $this->passwordHash = $passwordHash;
+        $this->hash = $hash;
     }
 
-    public function __toString()
+    public static function fromHashedPassword(string $password): PasswordHash
     {
-        return $this->passwordHash;
+        static::validate($password);
+
+        return new PasswordHash($password);
+    }
+
+    public static function fromPlainPassword(string $password): PasswordHash
+    {
+        static::validate($password);
+
+        return new PasswordHash(password_hash($password, PASSWORD_BCRYPT));
+    }
+
+    public static function validate(string $password)
+    {
+        if (!$password) {
+            throw new PasswordIsEmpty();
+        }
+
+        if (strlen($password) <= 1) {
+            throw new PasswordIsNotValid();
+        }
+    }
+
+    public function __toString(): string
+    {
+        return $this->hash;
     }
 }

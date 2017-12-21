@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: wojto
- * Date: 20.12.17
- * Time: 13:01
- */
 
-namespace tests\Invoice\Domain;
+namespace Tests\Invoice\Domain;
 
 use Invoice\Domain\Email;
 use PHPUnit\Framework\TestCase;
@@ -14,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 class EmailTest extends TestCase
 {
     /**
-     * @param string $email
      * @dataProvider invalidEmails
      */
     public function testThatCannotBeCreatedFromInvalidEmail(string $email)
@@ -29,8 +22,8 @@ class EmailTest extends TestCase
         return [
             ['invalid-email'],
             [''],
-            ['codesensus@'],
-            ['codesensus@gmail']
+            ['leszek.prabucki@'],
+            ['aaa@a']
         ];
     }
 }

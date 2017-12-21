@@ -2,37 +2,52 @@
 
 namespace spec\Invoice\Domain;
 
+use Invoice\Domain\Exception\PasswordIsEmpty;
+use Invoice\Domain\Exception\PasswordIsNotValid;
 use Invoice\Domain\PasswordHash;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 
 /**
- * Class PasswordHashSpec
- * @package spec\Invoice\Domain
  * @mixin PasswordHash
  */
 class PasswordHashSpec extends ObjectBehavior
 {
-    public function it_is_initializable()
+    function it_is_initializable_from_plain_password()
     {
-        $hash = password_hash('test123', PASSWORD_BCRYPT);
+        $this->beConstructedThrough('fromPlainPassword', ['123']);
 
-        $this->beConstructedWith($hash);
+        $this->__toString()->shouldHavePasswordMatch('123');
+    }
+
+    function it_is_initializable_from_hashed_password()
+    {
+        $hash = password_hash('123', PASSWORD_BCRYPT);
+        $this->beConstructedThrough('fromHashedPassword', [$hash]);
+
         $this->__toString()->shouldBe($hash);
-
-        $this->shouldHaveType(PasswordHash::class);
     }
 
-    public function it_throws_invalid_argument_exception_for_empty_password_hash()
+    function it_throws_invalid_argument_exception_for_empty_password()
     {
-        $this->beConstructedWith('');
+        $this->beConstructedThrough('fromPlainPassword', ['']);
 
-        $this->shouldThrow(\InvalidArgumentException::class)->duringInstantiation();
+        $this->shouldThrow(PasswordIsEmpty::class)->duringInstantiation();
     }
 
-    public function it_throws_invalid_argument_exception_for_not_valid_password_hash()
+    function it_throws_invalid_argument_exception_for_password_is_not_valid()
     {
-        $this->beConstructedWith('1');
+        $this->beConstructedThrough('fromPlainPassword', ['a']);
 
-        $this->shouldThrow(\InvalidArgumentException::class)->duringInstantiation();
+        $this->shouldThrow(PasswordIsNotValid::class)->duringInstantiation();
+    }
+
+    function getMatchers(): array
+    {
+        return [
+            'havePasswordMatch' => function (string $hash, string $password) {
+                return password_verify($password, $hash);
+            }
+        ];
     }
 }

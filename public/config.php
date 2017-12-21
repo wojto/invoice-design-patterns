@@ -1,3 +1,4 @@
+<?php require_once '../vendor/autoload.php'; ?>
 <?php
 
 require_once '../vendor/autoload.php';
@@ -51,3 +52,7 @@ try {
     die ('Cannot connect to database: ' . $exception->getMessage());
 }
 
+$registerUser = new \Invoice\Application\UseCase\RegisterUser(
+    new \Invoice\Adapter\Pdo\Domain\UserRepository($connection),
+    new \Invoice\Adapter\Pdo\Domain\UserFactory()
+);

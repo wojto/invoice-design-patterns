@@ -2,35 +2,36 @@
 
 namespace spec\Invoice\Domain;
 
+use InvalidArgumentException;
 use Invoice\Domain\Email;
+use Invoice\Domain\Exception\EmailIsEmpty;
+use Invoice\Domain\Exception\EmailIsNotValid;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 
 /**
- * Class EmailSpec
- * @package spec\Invoice\Domain
  * @mixin Email
  */
 class EmailSpec extends ObjectBehavior
 {
-    public function it_is_initializable()
+    function it_is_initializable()
     {
-        $this->beConstructedWith('codesensus@gmail.com');
-        $this->__toString()->shouldBe('codesensus@gmail.com');
+        $this->beConstructedWith('leszek.prabucki@gmail.com');
 
-        $this->shouldHaveType(Email::class);
+        $this->__toString()->shouldBe('leszek.prabucki@gmail.com');
     }
 
-    public function it_throws_invalid_argument_exception_for_empty_mail()
+    function it_throws_invalid_argument_exception_for_empty_email()
     {
         $this->beConstructedWith('');
 
-        $this->shouldThrow(\InvalidArgumentException::class)->duringInstantiation();
+        $this->shouldThrow(EmailIsEmpty::class)->duringInstantiation();
     }
 
-    public function it_throws_invalid_argument_exception_for_not_valid_email()
+    function it_throws_invalid_argument_exception_for_email_is_not_valid()
     {
         $this->beConstructedWith('not-valid');
 
-        $this->shouldThrow(\InvalidArgumentException::class)->duringInstantiation();
+        $this->shouldThrow(EmailIsNotValid::class)->duringInstantiation();
     }
 }
