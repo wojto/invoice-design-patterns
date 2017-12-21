@@ -30,8 +30,9 @@ final class UserRepository implements UserRepositoryInterface
             //tutaj update
             return;
         }
-        $stmt = $this->pdo->prepare('INSERT INTO users (email, password_hash)
-          VALUES (:email, :password)');
+        $stmt = $this->pdo->prepare(
+            'INSERT INTO users (email, password_hash) VALUES (:email, :password)'
+        );
 
         $stmt->execute([
             'email' => (string) $user->email(),
@@ -39,5 +40,17 @@ final class UserRepository implements UserRepositoryInterface
         ]);
 
         $user->setId((int) $this->pdo->lastInsertId());
+    }
+
+    public function has(User $user): bool
+    {
+        $smtp = $this->pdo->prepare(
+            'SELECT COUNT(*) FROM users WHERE email = :email'
+        );
+        $smtp->execute([
+            'email' => (string) $user->email()
+        ]);
+
+        return (bool) $smtp->fetchColumn();
     }
 }

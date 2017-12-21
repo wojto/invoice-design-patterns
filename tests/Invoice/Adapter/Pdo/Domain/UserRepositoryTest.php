@@ -66,6 +66,21 @@ class UserRepositoryTest extends TestCase
         self::assertNotNull($user->id());
     }
 
+    public function testThatCheckIfHasUserInDatabase()
+    {
+        $user = new User(
+            new Email('leszek.prabucki@gmail.com'),
+            PasswordHash::fromPlainPassword('test123')
+        );
+        $this->userRepository->add($user);
+
+        self::assertTrue($this->userRepository->has($user));
+        self::assertFalse($this->userRepository->has(new User(
+            new Email('jan.kowalski@wp.pl'),
+            PasswordHash::fromPlainPassword('test')
+        )));
+    }
+
     private function getConnection(): PDO
     {
         if ($this->connection) {

@@ -18,4 +18,24 @@ final class DefaultResponder implements Responder
     ): void
     {
     }
+
+    public function emailIsEmpty(): void
+    {
+        // TODO: Implement emailIsEmpty() method.
+    }
+
+    public function emailIsNotValid(): void
+    {
+        // TODO: Implement emailIsNotValid() method.
+    }
+
+    public function passwordIsEmpty(): void
+    {
+        // TODO: Implement passwordIsEmpty() method.
+    }
+
+    public function passwordIsNotValid(): void
+    {
+        // TODO: Implement passwordIsNotValid() method.
+    }
 }
